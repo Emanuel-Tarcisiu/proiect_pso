@@ -2,7 +2,7 @@
 #include"unistd.h"
 
 int main(int argc, char* argv[]){
-    printf("Hello there\n\n");
+    write(STDOUT_FILENO,"Inceput main.c:\n",17);
 
     if(argc > 1){
         for(int i=0;i<argc;i++)
@@ -11,6 +11,6 @@ int main(int argc, char* argv[]){
         printf("\n");
     }
 
-    write(STDOUT_FILENO,"Sfarsit\n",8);
+    write(STDOUT_FILENO,"Sfarsit\n",9);
     return 0;
 }
