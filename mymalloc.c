@@ -425,25 +425,6 @@ void myfree(void *ptr)
     
     pthread_mutex_unlock(&mutex_mymalloc);
 
-    // pthread_mutex_lock(&mutex_mymalloc);
-
-    // Block* block=(Block*)((char*)(ptr)-S_BLOCK_SIZE);
-    // block->free=1;
-    
-    // if(try_merge_free_blocks(block->prev,block))
-    // {
-    //     remove_free_block(block);
-    //     add_free_block(block->prev);
-    // }
-
-    // if(try_merge_free_blocks(block,block->next))
-    // {
-    //     remove_free_block(block->next);
-    //     add_free_block(block);
-    // }
-
-    // pthread_mutex_unlock(&mutex_mymalloc);
-
 }
 
 
