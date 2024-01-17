@@ -1,63 +1,81 @@
-#include<unistd.h>
-#include<stdlib.h>
-#include<stdbool.h>
+#include"mymalloc.h"
 #include<stdio.h>
 
+void teste_mymalloc(){
+	int *a=(int*)mymalloc(sizeof(int));
+	*a=5;
+	printf("%i\n",*a);
 
-#define SIZE_HEAP 64
+	myfree(a);
+	printf("S-a exec myfree()\n");
 
-typedef struct data_block
-{
-    struct data_block* next;
-    struct data_block* prev;
-    size_t dim_bloc;
-    bool liber;
+	char* str=(char*)mymalloc(sizeof(char)*6);
+	str[0]='s';
+	str[1]='a';
+	str[2]='l';
+	str[3]='u';
+	str[4]='t';
+	str[5]='\n';
 
-}data_block;
+	printf("str meu: %s\n\n",str);
+	myfree(str);
 
-static data_block* heap_liber[SIZE_HEAP];
-static data_block* start_node=NULL;
+	char* huge=(char*)mymalloc(sizeof(char)*1000000);
+	strcpy(huge,"hello there");
+	printf("%s\n",huge);
 
-data_block* create_node(size_t dim){
-    data_block* new_node=(data_block*)sbrk(sizeof(data_block));
-
-    new_node->dim_bloc=dim;
-    new_node->liber=false;
-    new_node->next=NULL;
-    new_node->prev=NULL;
-
-    return new_node;
+	myfree(huge);
 }
 
-void insert_new_node(data_block** head, size_t dim){
-    //data_block* curent_node=*head;
-    data_block* new_node=create_node(dim);
+void teste_merge(){
+	int *a=(int*)mymalloc(sizeof(int));
 
-    if(*head != NULL){
-        (*head)->next=new_node;
-    }
+	int *b=(int*)mymalloc(2*sizeof(int));
 
-    new_node->prev=*head;
+	char* c=(char*)mymalloc(sizeof(char)*10);
+	list_blocks();
+	myfree(a);
 
-    *head=new_node;
+	myfree(c);
+	list_blocks();
+
+	myfree(b);
 }
 
-void* mymalloc(size_t dim){
-    insert_new_node(&start_node,dim);
+void teste_myrealloc(){
+	int* a=(int*)mymalloc(sizeof(int));
+	*a=8;
+	printf("a= %i\n",*a);
 
-    return (void*)&start_node;
-}
+	int* b = a;
+	printf("b= %i\n",*b);
+	b=(int*)myrealloc(NULL,sizeof(int)*3);
+
+	char* c=(char*)mymalloc(sizeof(char)*4096);
+	myfree(c);
+	
+	list_blocks();
+
+	a=(int*)myrealloc(a, sizeof(int)*2);
+	a[1]=10;
+	for(int i=0;i<2;i++)
+		printf("a[%i]= %i\n",i,a[i]);
+	printf("\n");
+
+	myfree(a);
+	myfree(b);
+}	
+
 
 int main(){
-    int* a=(int*)mymalloc(sizeof(int)*4);
-    for(int i=0;i<4;i++)
-    {
-        a[i]=i+3;
-    }
+	//teste_mymalloc();
+	//teste_merge();
+	printf("intra in realloc\n");
+	teste_myrealloc();
 
-    for(int i=0;i<4;i++){
-        printf("a[%i]= %i\n",i,a[i]);
-    }
-    
-    return 0;
+
+	printf("\n\nPRINT FINAL:\n");
+	list_blocks();
+
+	return 0;
 }
