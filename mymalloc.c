@@ -101,7 +101,7 @@ void list_blocks()
        i++;
     }
 
-  printf("dimensiunea unui Block= %i\n",(int)sizeof(Block));
+  printf("\ndimensiunea unui Block= %i\n\n",(int)sizeof(Block));
 }
 
 
@@ -871,6 +871,8 @@ void *myrealloc(void *ptr, size_t size){
       perror("Eroare la realocare\n");
       return NULL;
       }
+
+    new_realocated->free = 0;
 
     return (char*)new_realocated + S_BLOCK_SIZE;
   }
