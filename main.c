@@ -62,17 +62,31 @@ void teste_myrealloc(){
 		printf("a[%i]= %i\n",i,a[i]);
 	printf("\n");
 
-	myfree(a);
+	
   	list_blocks();
 	myfree(b);
+	myfree(a);
 }	
+
+void teste_myrealloc_next(){
+	int* a=(int*)mymalloc(sizeof(int));
+	*a=12;
+	char* b=(char*)mymalloc(sizeof(char)*128);
+	myfree(b);
+	list_blocks();
+
+	a=myrealloc(a,2*sizeof(int));
+	list_blocks();
+
+	myfree(a);
+}
 
 
 int main(){
-	//teste_mymalloc();
-	teste_merge();
-	teste_myrealloc();
-
+	teste_mymalloc();
+	//teste_merge();
+	//teste_myrealloc();
+	//teste_myrealloc_next();
 
 	printf("\n\nPRINT FINAL:\n");
 	list_blocks();
